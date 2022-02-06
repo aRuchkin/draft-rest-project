@@ -1,0 +1,33 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <!--    creating table  -->
+    <changeSet id="001" author="developer">
+        <createTable tableName="products">
+            <column name="id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)"/>
+            <column name="description" type="varchar(255)"/>
+            <column name="price" type="numeric(8,2)"/>
+            <column name="creation_date" type="date"/>
+            <column name="modify_date" type="date"/>
+            <column name="currency" type="varchar(10)"/>
+            <column name="language" type="varchar(10)"/>
+        </createTable>
+        <createSequence sequenceName="product_id_seq" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <!--    initial data    -->
+    <changeSet id="002" author="developer">
+        <sql>
+            insert into products(id, name, description, price, creation_date, modify_date, currency, language)
+            values (nextval('product_id_seq'), 'first product', 'first product description', 95.85, date '2022-01-12', date '2022-01-15', 'RUB', 'RU');
+            insert into products(id, name, description, price, creation_date, modify_date, currency, language)
+            values (nextval('product_id_seq'), 'second product', 'second product description', 1500.50, date '2022-02-01', date '2022-02-02', 'USD', 'EN');
+        </sql>
+    </changeSet>
+</databaseChangeLog>
