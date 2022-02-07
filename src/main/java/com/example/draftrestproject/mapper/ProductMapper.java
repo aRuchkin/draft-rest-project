@@ -10,8 +10,14 @@ import org.springframework.stereotype.Component;
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
 
+    /**
+     * Mapping entity to API response
+     */
     ProductResponse toProductResponse(Product product);
 
+    /**
+     * Mapping API request to entity
+     */
     Product toProduct(ProductRequest productRequest);
 
 }
