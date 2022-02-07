@@ -19,6 +19,10 @@ public class ProductService {
 
     private static final Logger log = LogManager.getLogger(Product.class);
 
+    private final String NOT_FOUND_MESSAGE = "Product not found";
+    private final String INCORRECT_PRODUCT_PRICE_MESSAGE = "The price must be greater than 0";
+    private final String INCORRECT_PRODUCT_NAME_MESSAGE = "The name of product must be present";
+
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
 
@@ -57,17 +61,20 @@ public class ProductService {
     }
 
     private Product findOrThrow(Integer id) {
-        return productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
+        return productRepository.findById(id).orElseThrow(() -> {
+            log.error(NOT_FOUND_MESSAGE);
+            return new ProductNotFoundException(NOT_FOUND_MESSAGE);
+        });
     }
 
     private void checkRequest(ProductRequest productRequest) {
         if (productRequest.getName() == null || productRequest.getName().isEmpty()) {
-            log.error("The name of product must be present");
-            throw new DataIncorrectException();
+            log.error(INCORRECT_PRODUCT_NAME_MESSAGE);
+            throw new DataIncorrectException(INCORRECT_PRODUCT_NAME_MESSAGE);
         }
         if (productRequest.getPrice().compareTo(BigDecimal.valueOf(0)) <= 0) {
-            log.error("The price must be greater than 0");
-            throw new DataIncorrectException();
+            log.error(INCORRECT_PRODUCT_PRICE_MESSAGE);
+            throw new DataIncorrectException(INCORRECT_PRODUCT_PRICE_MESSAGE);
         }
     }
 

@@ -1,15 +1,20 @@
 package com.example.draftrestproject.controller;
 
+import com.example.draftrestproject.error.DataIncorrectException;
+import com.example.draftrestproject.error.ErrorResponseModel;
+import com.example.draftrestproject.error.ProductNotFoundException;
 import com.example.draftrestproject.model.ProductRequest;
 import com.example.draftrestproject.model.ProductResponse;
 import com.example.draftrestproject.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Product Controller for Administrator")
 @RestController
-@RequestMapping("/")
+@RequestMapping("/products")
 public class ProductAdminController {
 
     private final ProductService productService;
@@ -42,4 +47,16 @@ public class ProductAdminController {
         return productService.update(id, productRequest);
     }
 
+    @ExceptionHandler({ProductNotFoundException.class, DataIncorrectException.class})
+    public ResponseEntity<ErrorResponseModel> handleException(RuntimeException e) {
+        if (e.getClass().equals(ProductNotFoundException.class)) {
+            return createErrorResponse(e, HttpStatus.NOT_FOUND);
+        } else {
+            return createErrorResponse(e, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    private ResponseEntity<ErrorResponseModel> createErrorResponse(RuntimeException e, HttpStatus httpStatus) {
+        return new ResponseEntity<>(new ErrorResponseModel(httpStatus.getReasonPhrase(), e.getMessage()), httpStatus);
+    }
 }
