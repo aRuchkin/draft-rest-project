@@ -15,10 +15,10 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
- * Main product service
+ * Main product admin service
  */
 @Service
-public class ProductService {
+public class ProductAdminService {
 
     private static final Logger log = LogManager.getLogger(Product.class);
 
@@ -29,8 +29,8 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
 
-    public ProductService(ProductRepository productRepository,
-                          ProductMapper productMapper) {
+    public ProductAdminService(ProductRepository productRepository,
+                               ProductMapper productMapper) {
         this.productRepository = productRepository;
         this.productMapper = productMapper;
     }
