@@ -1,21 +1,14 @@
 package com.example.draftrestproject.controller;
 
-import com.example.draftrestproject.error.DataIncorrectException;
-import com.example.draftrestproject.error.ErrorResponseModel;
-import com.example.draftrestproject.error.ProductNotFoundException;
 import com.example.draftrestproject.model.Currency;
 import com.example.draftrestproject.model.Language;
 import com.example.draftrestproject.model.ProductResponse;
 import com.example.draftrestproject.service.ProductClientService;
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Product Controller for Client")
